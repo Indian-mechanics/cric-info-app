@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Laws of Cricket - CricInfo</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #000;
+  color: #fff;
+}
+
+header {
+  background: #000;
+  padding: 18px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #222;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00ffae;
+}
+
+nav a {
+  color: white;
+  margin-left: 25px;
+  text-decoration: none;
+}
+
+h1 {
+  text-align: center;
+  margin: 25px 0;
+  color: #00ffae;
+}
+
+/* SEARCH */
+.search-box {
+  width: 60%;
+  margin: 0 auto 30px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+/* LAW CARDS */
+.laws-container {
+  width: 85%;
+  margin: auto;
+}
+
+.law-card {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.law-card:hover {
+  box-shadow: 0 0 12px #00ffae;
+}
+
+.law-title {
+  font-size: 20px;
+  color: #00ffae;
+}
+
+.law-content {
+  display: none;
+  margin-top: 8px;
+  color: #ccc;
+  font-size: 15px;
+}
+
+.law-card.active .law-content {
+  display: block;
+}
+
+.watch-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #00ffae;
+  cursor: pointer;
+}
+
+.video-container {
+  margin-top: 10px;
+  width: 100%;
+  height: 280px;
+}
+.video-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">CricInfo</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="grounds.html">Grounds</a>
+    <a href="umpires.html">Umpires</a>
+  </nav>
+</header>
+
+<h1>Laws of Cricket (MCC / ICC)</h1>
+
+<div class="search-box">
+  <input type="text" id="searchLaw" placeholder="Search by Law number or name (e.g. LBW, Law 36)">
+</div>
+
+<div class="laws-container" id="lawsList"></div>
+
+<script>
+// List of laws + YouTube embed URLs
+const laws = [
+  { title: "Law 1 – The Players", desc: "A match is played between two teams of eleven players each.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 2 – The Umpires", desc: "Umpires control the match and apply the laws.", video: "https://www.youtube.com/embed/8gEnNnzjroc" },
+  { title: "Law 3 – The Scorers", desc: "Scorers record all runs, wickets and overs.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 4 – The Ball", desc: "The ball specification and handling rules.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 5 – The Bat", desc: "Bat construction and size rules.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 6 – The Pitch", desc: "Pitch size, preparation and care.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 7 – The Creases", desc: "Defines popping, bowling, return creases.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 8 – The Wickets", desc: "Stumps, bails and wicket dimensions.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 9 – Preparation & Maintenance", desc: "Playing area prep and maintenance.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 10 – Covering the Pitch", desc: "How the pitch must be protected.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 11 – Intervals", desc: "Scheduled breaks in the match.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 12 – Start & Cessation of Play", desc: "Starting, stopping and resuming play.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 13 – Innings", desc: "What an innings is in cricket.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 14 – Follow-on", desc: "When a team is asked to bat again.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 15 – Declaration & Forfeiture", desc: "Captains may declare innings closed.", video: "https://www.youtube.com/embed/DpXVvS2ksC8" },
+  { title: "Law 16 – Result of the Match", desc: "How results are decided.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 17 – The Over", desc: "Over and legal delivery rules.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 18 – Scoring Runs", desc: "How runs are scored.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 19 – Boundaries", desc: "Four and six scoring boundaries.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 20 – Dead Ball", desc: "When the ball is dead or in play.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 21 – No Ball", desc: "Illegal delivery penalties and rules.", video: "https://www.youtube.com/embed/uQ_aQXo8BTM" },
+  { title: "Law 22 – Wide Ball", desc: "A delivery too wide to play.", video: "https://www.youtube.com/embed/A3a7EM8yOT0" },
+  { title: "Law 23 – Bye & Leg Bye", desc: "Runs without bat contact.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 24 – Fielder’s Absence", desc: "Substitutes and absent fielders.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 25 – Batter’s Innings", desc: "Time at the crease.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 26 – Practice on Field", desc: "Practice restrictions during play.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 27 – The Wicket-Keeper", desc: "Wicket-keeper’s duties.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 28 – The Fielder", desc: "Fielder conduct and positioning.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 29 – The Wicket is Down", desc: "What it means for the wicket to be down.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 30 – Batter Out of Ground", desc: "When a batter is in/out of ground.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 31 – Appeals", desc: "How and when appeals work.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 32 – Bowled", desc: "When a batter is bowled out.", video: "https://www.youtube.com/embed/JT00k2RyxAM" },
+  { title: "Law 33 – Caught", desc: "Caught dismissal rule.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 34 – Hit the Ball Twice", desc: "Illegal twice hit except self defence.", video: "https://www.youtube.com/embed/wjTHAFNvm7Q" },
+  { title: "Law 35 – Hit Wicket", desc: "When a batter hits his own wicket.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 36 – LBW", desc: "Leg Before Wicket dismissal.", video: "https://www.youtube.com/embed/Dk1-8NtAavA" },
+  { title: "Law 37 – Obstructing the Field", desc: "Illegal obstruction by batter.", video: "https://www.youtube.com/embed/D6vasq3c36Q" },
+  { title: "Law 38 – Run Out", desc: "Wicket broken while out of crease.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 39 – Stumped", desc: "Wicket-keeper removes bails.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 40 – Timed Out", desc: "Batter fails to arrive in time.", video: "https://www.youtube.com/embed/piYEG73afC4" },
+  { title: "Law 41 – Unfair Play", desc: "Includes dangerous/unfair actions.", video: "https://www.youtube.com/embed/Lj92B-XOyaE" },
+  { title: "Law 42 – Players’ Conduct", desc: "Player behaviour and penalties.", video: "https://www.youtube.com/embed/Lj92B-XOyaE" }
+];
+
+const container = document.getElementById("lawsList");
+
+laws.forEach(law => {
+  const div = document.createElement("div");
+  div.className = "law-card";
+  div.innerHTML = `
+    <div class="law-title">${law.title}</div>
+    <div class="law-content">
+      <p>${law.desc}</p>
+      <span class="watch-link">▶ Watch Explanation</span>
+      <div class="video-container" style="display:none;"></div>
+    </div>
+  `;
+
+  div.onclick = () => div.classList.toggle("active");
+
+  const link = div.querySelector(".watch-link");
+  const videoContainer = div.querySelector(".video-container");
+
+  link.addEventListener("click", function(event){
+    event.stopPropagation();
+    if(videoContainer.innerHTML === "") {
+      videoContainer.innerHTML = `<iframe src="${law.video}" allowfullscreen></iframe>`;
+      videoContainer.style.display = "block";
+    } else {
+      videoContainer.style.display = videoContainer.style.display === "none" ? "block" : "none";
+    }
+  });
+
+  container.appendChild(div);
+});
+
+// SEARCH
+document.getElementById("searchLaw").addEventListener("keyup", function () {
+  const val = this.value.toLowerCase();
+  document.querySelectorAll(".law-card").forEach(card => {
+    card.style.display = card.innerText.toLowerCase().includes(val) ? "block" : "none";
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grounds - CricInfo</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: #fff;
+        }
+
+        header {
+            background: #000;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00f7a5;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 40px;
+            color: #00f7a5;
+        }
+        .grounds-container {
+            width: 90%;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .ground-card {
+            background: #111;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid #222;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .ground-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 12px #00f7a5;
+        }
+
+        .ground-card img {
+            width: 100%;
+            height: 180px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .ground-name {
+            margin-top: 12px;
+            font-size: 22px;
+            color: #00f7a5;
+        }
+
+        .ground-info {
+            margin-top: 8px;
+            font-size: 15px;
+            color: #ccc;
+            line-height: 22px;
+        }
+
+        /* FULL INFO BOX */
+        #groundDetails {
+            width: 90%;
+            margin: 40px auto;
+            padding: 20px;
+            background: #111;
+            border-radius: 12px;
+            border: 1px solid #222;
+            display: none;
+            animation: fade 0.4s;
+        }
+
+        #groundDetails img {
+            width: 100%;
+            max-height: 260px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        #groundDetails table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        #groundDetails td {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            color: #ccc;
+        }
+
+        #groundDetails h2 {
+            color: #00f7a5;
+        }
+
+        @keyframes fade {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">CricInfo</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="live.html">Upcoming</a>
+        <a href="series.html">Series</a>
+        <a href="teams.html">Teams</a>
+        <a class="active" href="grounds.html">Grounds</a>
+        <a href="umpires.html" class="active">Umpires</a>
+    </nav>
+</header>
+
+<h1>Top Cricket Stadiums</h1>
+
+<!-- GROUNDS GRID -->
+<div class="grounds-container">
+
+    <div class="ground-card" data-ground="wankhede">
+        <img src="https://media.crictracker.com/web/large/media/attachments/1729138291482_Wankhede-Stadium.webp">
+        <div class="ground-name">Wankhede Stadium</div>
+        <div class="ground-info">
+            Mumbai, India • 33,000 • Built 1974
+        </div>
+    </div>
+
+    <div class="ground-card" data-ground="mcg">
+        <img src="https://www.zapcricket.com/cdn/shop/articles/T20AUSvIND_231118_087.webp?v=1681421706">
+        <div class="ground-name">Melbourne Cricket Ground</div>
+        <div class="ground-info">
+            Melbourne, Australia • 100,000 • Built 1853
+        </div>
+    </div>
+
+    <div class="ground-card" data-ground="lords">
+        <img src="https://populous.com/uploads/2018/01/GettyImages-1501994823-Do-not-use-after-31MAR2025.jpg">
+        <div class="ground-name">Lord's Cricket Ground</div>
+        <div class="ground-info">
+            London, England • 31,000 • Built 1814
+        </div>
+    </div>
+
+    <div class="ground-card" data-ground="eden">
+        <img src="https://kolkatatourism.travel/images/places-to-visit/headers/eden-gardens-kolkata-entry-fee-timings-holidays-reviews-header.jpg">
+        <div class="ground-name">Eden Gardens</div>
+        <div class="ground-info">
+            Kolkata, India • 66,000 • Built 1864
+        </div>
+    </div>
+
+    <div class="ground-card" data-ground="dubai">
+        <img src="https://static.toiimg.com/thumb/msid-117041814,width-1280,height-720,resizemode-4/117041814.jpg">
+        <div class="ground-name">Dubai International Stadium</div>
+        <div class="ground-info">
+            Dubai, UAE • 25,000
+        </div>
+    </div>
+
+    <div class="ground-card" data-ground="newlands">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Newlands.jpg">
+        <div class="ground-name">Newlands Cricket Ground</div>
+        <div class="ground-info">
+            Cape Town, SA • 25,000
+        </div>
+    </div>
+
+</div>
+
+<!-- FULL INFO THAT UPDATES -->
+<div id="groundDetails"></div>
+
+<script>
+    const groundData = {
+        wankhede: {
+            name: "Wankhede Stadium",
+            img: "https://media.crictracker.com/web/large/media/attachments/1729138291482_Wankhede-Stadium.webp",
+            table: {
+                Location: "Mumbai, India",
+                Capacity: "33,000",
+                Established: "1974",
+                HomeTeam: "India, Mumbai Indians",
+                FamousMatch: "2011 World Cup Final"
+            },
+            desc: "Wankhede Stadium is known for IPL finals, sea breeze swing, and India's 2011 World Cup victory."
+        },
+
+        mcg: {
+            name: "Melbourne Cricket Ground",
+            img: "https://www.zapcricket.com/cdn/shop/articles/T20AUSvIND_231118_087.webp?v=1681421706",
+            table: {
+                Location: "Melbourne, Australia",
+                Capacity: "100,000",
+                Established: "1853",
+                HomeTeam: "Australia",
+                FamousMatch: "Boxing Day Test"
+            },
+            desc: "MCG is one of the largest stadiums in the world and home of the Boxing Day Test."
+        },
+
+        lords: {
+            name: "Lord's Cricket Ground",
+            img: "https://populous.com/uploads/2018/01/GettyImages-1501994823-Do-not-use-after-31MAR2025.jpg",
+            table: {
+                Location: "London, England",
+                Capacity: "31,000",
+                Established: "1814",
+                HomeTeam: "England",
+                FamousMatch: "2019 World Cup Final"
+            },
+            desc: "Lord’s is known as the 'Home of Cricket'."
+        },
+
+        eden: {
+            name: "Eden Gardens",
+            img: "https://kolkatatourism.travel/images/places-to-visit/headers/eden-gardens-kolkata-entry-fee-timings-holidays-reviews-header.jpg",
+            table: {
+                Location: "Kolkata, India",
+                Capacity: "66,000",
+                Established: "1864",
+                HomeTeam: "India, KKR",
+                FamousMatch: "2001 Kolkata Test"
+            },
+            desc: "Eden Gardens is one of the oldest and most iconic stadiums in India."
+        },
+
+        dubai: {
+            name: "Dubai International Stadium",
+            img: "https://static.toiimg.com/thumb/msid-117041814,width-1280,height-720,resizemode-4/117041814.jpg",
+            table: {
+                Location: "Dubai, UAE",
+                Capacity: "25,000",
+                Established: "2009",
+                HomeTeam: "UAE",
+                FamousMatch: "Asia Cup Finals"
+            },
+            desc: "Dubai Stadium is known for its unique 'Ring of Fire' lighting system."
+        },
+
+        newlands: {
+            name: "Newlands Cricket Ground",
+            img: "https://upload.wikimedia.org/wikipedia/commons/f/fb/Newlands.jpg",
+            table: {
+                Location: "Cape Town, South Africa",
+                Capacity: "25,000",
+                Established: "1888",
+                HomeTeam: "South Africa",
+                FamousMatch: "SA vs AUS Test Series"
+            },
+            desc: "Newlands is famous for its scenic backdrop of Table Mountain."
+        }
+    };
+
+    document.querySelectorAll(".ground-card").forEach(card => {
+        card.addEventListener("click", () => {
+
+            const id = card.dataset.ground;
+            const g = groundData[id];
+
+            let tableHTML = "";
+            for (let key in g.table) {
+                tableHTML += `<tr><td><b>${key}</b></td><td>${g.table[key]}</td></tr>`;
+            }
+
+            document.getElementById("groundDetails").innerHTML = `
+                <img src="${g.img}">
+                <h2>${g.name}</h2>
+
+                <table>${tableHTML}</table>
+
+                <p style="margin-top:10px;color:#ccc;">${g.desc}</p>
+            `;
+
+            document.getElementById("groundDetails").style.display = "block";
+            window.scrollTo({ top: document.getElementById("groundDetails").offsetTop - 50, behavior: "smooth" });
+        });
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Umpires - CricInfo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #000;
+    color: #fff;
+}
+
+/* HEADER */
+header {
+    background: #000;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #222;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #00ffae;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 15px;
+}
+
+/* PAGE TITLE */
+h1 {
+    text-align: center;
+    margin: 35px 0;
+    font-size: 38px;
+    color: #00ffae;
+}
+
+/* UMPIRE GRID */
+.umpire-container {
+    width: 90%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 25px;
+}
+
+.umpire-card {
+    background: #111;
+    padding: 15px;
+    border-radius: 14px;
+    border: 1px solid #222;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.umpire-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 18px #00ffae;
+}
+
+.umpire-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.umpire-name {
+    margin-top: 12px;
+    font-size: 20px;
+    color: #00ffae;
+}
+
+.umpire-country {
+    color: #ccc;
+    font-size: 15px;
+}
+
+/* DETAILS SECTION */
+.umpire-details {
+    width: 85%;
+    margin: 40px auto;
+    background: rgba(0,0,0,0.8);
+    border-radius: 15px;
+    padding: 25px;
+    display: none;
+    animation: fadeUp 0.4s ease;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.umpire-details h2 {
+    color: #00ffae;
+    margin-bottom: 15px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px;
+}
+
+.details-grid div {
+    padding: 10px;
+    border: 1px solid #333;
+    background: #111;
+}
+
+.details-grid div b {
+    color: #00ffae;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">CricInfo</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="live.html">Upcoming</a>
+        <a href="series.html">Series</a>
+        <a href="teams.html">Teams</a>
+        <a href="grounds.html">Grounds</a>
+        <a href="umpires.html" class="active">Umpires</a>
+    </nav>
+</header>
+
+<h1>Elite Cricket Umpires</h1>
+
+<!-- UMPIRE GRID -->
+<div class="umpire-container">
+
+    <div class="umpire-card" onclick="loadUmpire('dharmasena')">
+        <img src="umpire1.jpg" onerror="this.src='images/default.png'">
+        <div class="umpire-name">Kumar Dharmasena</div>
+        <div class="umpire-country">Sri Lanka</div>
+    </div>
+
+    <div class="umpire-card" onclick="loadUmpire('illingsworth')">
+        <img src="umpire2.jpg" onerror="this.src='images/default.png'">
+        <div class="umpire-name">Richard Illingworth</div>
+        <div class="umpire-country">England</div>
+    </div>
+
+    <div class="umpire-card" onclick="loadUmpire('marais')">
+        <img src="umpire3.jpg" onerror="this.src='images/default.png'">
+        <div class="umpire-name">Marais Erasmus</div>
+        <div class="umpire-country">South Africa</div>
+    </div>
+
+    <div class="umpire-card" onclick="loadUmpire('gould')">
+        <img src="umpire4.jpg" onerror="this.src='images/default.png'">
+        <div class="umpire-name">Steve Bucknor</div>
+        <div class="umpire-country">West Indies</div>
+    </div>
+
+</div>
+
+<!-- DETAILS -->
+<div class="umpire-details" id="umpireDetails"></div>
+
+<script>
+const umpires = {
+    dharmasena: {
+        name: "Kumar Dharmasena",
+        country: "Sri Lanka",
+        born: "24 June 1971",
+        role: "ICC Elite Panel Umpire",
+        matches: "400+ International Matches",
+        finals: "2011, 2015, 2019 WC Finals",
+        awards: "ICC Umpire of the Year"
+    },
+    illingsworth: {
+        name: "Richard Illingworth",
+        country: "England",
+        born: "11 February 1969",
+        role: "ICC Elite Panel",
+        matches: "300+ International Matches",
+        finals: "2021 T20 WC Final",
+        awards: "ICC Umpire of the Year (2022)"
+    },
+    marais: {
+        name: "Marais Erasmus",
+        country: "South Africa",
+        born: "2 February 1964",
+        role: "ICC Elite Panel",
+        matches: "500+ International Matches",
+        finals: "Multiple World Cup Finals",
+        awards: "ICC Umpire of the Year (2016, 2017)"
+    },
+    gould: {
+        name: "Steve Bucknor",
+        country: "West Indies",
+        born: "31 May 1946",
+        role: "Former Elite Panel Umpire",
+        matches: "128 Tests",
+        finals: "5 World Cup Finals",
+        awards: "ICC Hall of Fame"
+    }
+};
+
+function loadUmpire(key) {
+    const u = umpires[key];
+    const box = document.getElementById("umpireDetails");
+
+    box.innerHTML = `
+        <h2>${u.name}</h2>
+        <div class="details-grid">
+            <div><b>Country</b></div><div>${u.country}</div>
+            <div><b>Date of Birth</b></div><div>${u.born}</div>
+            <div><b>Role</b></div><div>${u.role}</div>
+            <div><b>Matches Officiated</b></div><div>${u.matches}</div>
+            <div><b>Major Finals</b></div><div>${u.finals}</div>
+            <div><b>Awards</b></div><div>${u.awards}</div>
+        </div>
+    `;
+
+    box.style.display = "block";
+    box.scrollIntoView({ behavior: "smooth" });
+}
+</script>
+
+</body>
+</html>
